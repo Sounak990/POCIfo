@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration and Login</title>
+    <style>
+        /* Add your CSS styles here */
+        /* You can style your forms, buttons, etc. */
+    </style>
+</head>
+<body>
+    <div id="registration-container">
+        <h2>Register</h2>
+        <form id="registration-form">
+            <label for="reg-username">Username:</label>
+            <input type="text" id="reg-username" required>
+            <label for="reg-password">Password:</label>
+            <input type="password" id="reg-password" required>
+            <label for="reg-phone">Phone Number:</label>
+            <input type="text" id="reg-phone" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <div id="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="login-phone">Phone Number:</label>
+            <input type="text" id="login-phone" required>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript code for handling form submissions and interactions
+        document.addEventListener("DOMContentLoaded", () => {
+            const registrationForm = document.getElementById("registration-form");
+            const loginForm = document.getElementById("login-form");
+
+            registrationForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                // Handle registration form submission here
+            });
+
+            loginForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                // Handle login form submission here
+            });
+        });
+    </script>
+</body>
+</html>

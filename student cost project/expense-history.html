@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your meta tags and title go here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Expense Tracker</title>
+    <!-- Load Chart.js from the CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Your CSS styles go here */
+        body {
+            font-family: 'Arial,Helvetica,sans-serif';
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        header {
+            background-color: #0078d4;
+            color:#fe0;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color:#00ff39;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 90px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #e34040;
+            color: #fe0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                <li><a href="categories.html">Budget Categories</a></li>
+               <li><a href="monthly-overview.html">Monthly Overview</a></li>
+                <li><a href="expense-history.html">Expense Tracking History</a></li>
+                <li><a href="Goal Setting.html">Budget Goal Setting</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div style="max-width: 400px; margin: 0 auto;"> <!-- Limit chart size to fit within this container -->
+        <h2>Daily Expense Tracker</h2>
+        <p>Enter your daily estimated cost and daily spending below:</p>
+        
+
+        <form id="expense-form">
+            <label for="daily-estimate">Daily Estimated Cost:</label>
+            <input type="number" id="daily-estimate" min="0">
+            <br>
+
+            <label for="daily-spending">Daily Spending:</label>
+            <input type="number" id="daily-spending" min="0">
+            <br>
+
+            <button type="button" onclick="updatePieChart()">Update Pie Chart</button>
+        </form>
+
+        <!-- Canvas for the pie chart -->
+        <canvas id="expenseChart" width="300" height="300"></canvas> <!-- Adjust the width and height as needed -->
+    </div>
+
+    <script>
+        let dailyEstimate = 0;
+        let dailySpending = 0;
+        let expenseChart = null; // Initialize the chart variable
+
+        // Function to update the pie chart based on user input
+        function updatePieChart() {
+            dailyEstimate = parseFloat(document.getElementById('daily-estimate').value) || 0;
+            dailySpending = parseFloat(document.getElementById('daily-spending').value) || 0;
+
+            const remainingBudget = dailyEstimate - dailySpending;
+            const data = [dailySpending, remainingBudget];
+
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+
+            // Check if the chart exists and destroy it before creating a new one
+            if (expenseChart) {
+                expenseChart.destroy();
+            }
+
+            // Initialize the chart
+            expenseChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Daily Spending', 'Remaining Budget'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1,
+                    }],
+                },
+            });
+        }
+    </script>
+</body>
+<footer>
+    <p>Design by Sounak 2023 </p>
+</footer>
+</html>

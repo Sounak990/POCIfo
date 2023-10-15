@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Budget Planner</title>
+    <style>
+        /* CSS styles go here */
+        body {
+            font-family: 'Arial,Helvetica,sans-serif';
+            margin: 0;
+            padding: 0;
+               background-color: #ffffff;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: #fe0;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color:#00ff39; 
+            font-weight: bold;
+        }
+
+        main {
+            padding: 90px;
+        }
+
+        footer {
+            text-align: center;
+            background-color:  #e34040;
+            color: #fe0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                <li><a href="categories.html">Budget Categories</a></li>
+               
+                <li><a href="monthly-overview.html">Monthly Overview</a></li>
+                <li><a href="expense-history.html">Expense Tracking History</a></li>
+                <li><a href="Goal Setting.html">Budget Goal Setting</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Budget Categories</h2>
+        <p>Manage your expenses by categorizing them into different budget categories. You can create, edit, and delete categories and items as needed.</p>
+        
+        <!-- List of budget categories -->
+        <h3>Categories</h3>
+        <ul id="category-list">
+            <!-- Categories will be dynamically added here -->
+        </ul>
+        
+        <!-- Form for adding a new category -->
+        <h4>Add a New Category</h4>
+        <form id="add-category-form">
+            <input type="text" id="new-category" placeholder="Enter a new category" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <!-- Table for budget items -->
+        <h3>Items</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Item</th>
+                    <th>Price (rup)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="item-list">
+                <!-- Items will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <!-- Form for adding a new item -->
+        <h4>Add a New Item</h4>
+        <form id="add-item-form">
+            <label for="category-select">Category:</label>
+            <select id="category-select" required>
+                <!-- Categories will be dynamically added here -->
+            </select>
+            <label for="item-name">Item Name:</label>
+            <input type="text" id="item-name" placeholder="Enter item name" required>
+            <label for="item-price">Item Price (rup):</label>
+            <input type="number" id="item-price" placeholder="Enter item price" step="0.01" required>
+            <button type="submit">Add</button>
+        </form>
+    </main>
+    
+    <!-- Include the footer -->
+    <footer>
+        <p>Design by Sounak 2023 </p>
+    </footer>
+    
+    <!-- JavaScript for managing categories and items -->
+    <script>
+        const categories = {};
+        const itemList = document.getElementById('item-list');
+        const categorySelect = document.getElementById('category-select');
+        const categoryList = document.getElementById('category-list');
+
+        function refreshCategories() {
+            categorySelect.innerHTML = '';
+            categoryList.innerHTML = '';
+
+            for (const category in categories) {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+
+                const li = document.createElement('li');
+                li.textContent = category;
+                categoryList.appendChild(li);
+            }
+        }
+
+        function refreshItems() {
+            itemList.innerHTML = '';
+
+            for (const category in categories) {
+                categories[category].forEach(item => {
+                    const row = document.createElement('tr');
+                    const cell1 = document.createElement('td');
+                    cell1.textContent = category;
+                    const cell2 = document.createElement('td');
+                    cell2.textContent = item.name;
+                    const cell3 = document.createElement('td');
+                    cell3.textContent = `${item.price.toFixed(2)} rup`;
+                    const cell4 = document.createElement('td');
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.onclick = () => editItem(category, item.name);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => deleteItem(category, item.name);
+                    cell4.appendChild(editButton);
+                    cell4.appendChild(deleteButton);
+                    row.appendChild(cell1);
+                    row.appendChild(cell2);
+                    row.appendChild(cell3);
+                    row.appendChild(cell4);
+                    itemList.appendChild(row);
+                });
+            }
+        }
+
+        document.getElementById('add-category-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const newCategoryInput = document.getElementById('new-category');
+            const newCategory = newCategoryInput.value.trim();
+            if (newCategory) {
+                categories[newCategory] = [];
+                newCategoryInput.value = '';
+                refreshCategories();
+            }
+        });
+
+        document.getElementById('add-item-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const selectedCategory = categorySelect.value;
+            const newItemName = document.getElementById('item-name').value.trim();
+            const newItemPrice = parseFloat(document.getElementById('item-price').value);
+
+            if (selectedCategory && newItemName && !isNaN(newItemPrice)) {
+                categories[selectedCategory].push({ name: newItemName, price: newItemPrice });
+                document.getElementById('item-name').value = '';
+                document.getElementById('item-price').value = '';
+                refreshItems();
+            }
+        });
+
+        function editItem(category, itemName) {
+            const editedItemName = prompt(`Edit item "${itemName}" in category "${category}":`, itemName);
+            if (editedItemName !== null) {
+                const itemIndex = categories[category].findIndex(item => item.name === itemName);
+                if (itemIndex !== -1) {
+                    categories[category][itemIndex].name = editedItemName;
+                    refreshItems();
+                }
+            }
+        }
+
+        function deleteItem(category, itemName) {
+            const confirmDelete = confirm(`Delete item "${itemName}" in category "${category}"?`);
+            if (confirmDelete) {
+                const itemIndex = categories[category].findIndex(item => item.name === itemName);
+                if (itemIndex !== -1) {
+                    categories[category].splice(itemIndex, 1);
+                    refreshItems();
+                }
+            }
+        }
+
+        // Initial table population
+        refreshCategories();
+        refreshItems();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

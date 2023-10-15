@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Goal Setting</title>
+    <style>
+        /* CSS styles go here */
+        body {
+            font-family: 'Arial,Helvetica,sans-serif';
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: #fe0;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #00ff39;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 90px;
+        }
+
+        footer {
+            text-align: center;
+            background-color:  #e34040;
+            color:  #fe0;
+            padding: 10px;
+        }
+         #goal-placard {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 24px;
+         }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                <li><a href="categories.html">Budget Categories</a></li>
+               <li><a href="monthly-overview.html">Monthly Overview</a></li>
+                <li><a href="expense-history.html">Expense Tracking History</a></li>
+                <li><a href="Goal Setting.html">Budget Goal Setting</a></li>
+            </ul>
+        </nav>
+    </header>
+<body>
+    <h2>Budget Goal Setting</h2>
+
+     <p>Set your financial goal for the month:</p>
+    
+        <form id="goal-form">
+            <label for="monthly-goal">Monthly Budget Goal (₹):</label>
+            <input type="number" id="monthly-goal" min="0">
+            <button type="button" onclick="setBudgetGoal()">Set Goal</button>
+        </form>
+    
+        <div id="goal-status">
+            <p>Your Monthly Budget Goal: <span id="goal-amount">₹0.00</span></p>
+        </div>
+    
+        <div id="goal-placard" style="display: none;">
+            <p>Your Daily Budget: <span id="daily-budget">₹0.00</span></p>
+        </div>
+    
+        <script>
+            let budgetGoal = 0;
+    
+            function setBudgetGoal() {
+                const goalInput = document.getElementById('monthly-goal');
+                budgetGoal = parseFloat(goalInput.value) || 0;
+    
+                const goalAmount = document.getElementById('goal-amount');
+                goalAmount.textContent = `₹${budgetGoal.toFixed(2)}`;
+                
+                const dailyBudget = budgetGoal / 30; // Assuming 30 days in a month
+                const dailyBudgetElement = document.getElementById('daily-budget');
+                dailyBudgetElement.textContent = `₹${dailyBudget.toFixed(2)}`;
+    
+                // Show the placard with daily budget
+                const placard = document.getElementById('goal-placard');
+                placard.style.display = 'block';
+    
+                alert(`Your monthly budget goal has been set to ₹${budgetGoal.toFixed(2)}.`);
+            }
+        </script>
+    </body>
+
+    </html>
+    
+    
