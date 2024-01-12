@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POCIfo - Welcome</title>
+    <style>
+        /* Your CSS styles go here */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f2f2f2;
+            
+        }
+
+        header {
+            background-color: #0078d4;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #00ff39;
+            font-weight: bold;
+        }
+
+        .profile-card, .welcome, .budget {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation-name: slideIn;
+            animation-duration: 1s;
+            animation-timing-function: ease;
+        }
+
+        .budget .budget-placard {
+            display: none;
+            background-color: #0078d4;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            animation-name: fadeIn;
+            animation-duration: 2s;
+            animation-timing-function: ease;
+        }
+
+        .next-button {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .questions {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation-name: slideIn;
+            animation-duration: 1s;
+            animation-timing-function: ease;
+            display: none; /* Initially hide the questions */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        select {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            width: 90%;
+            padding: 10px;
+            background-color: #010c14;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #5f5de7;
+            color: #fff;
+            padding: 10px;
+          
+            bottom: 0;
+            width:100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 600px) {
+            .profile-card, .welcome, .budget, .questions {
+                max-width: 100%;
+                margin: 0;
+            }
+        }
+        .budget button,
+        .next-button button {
+            width: 50%; /* Adjusted to center-align the buttons */
+            margin: 0 auto; /* Center-align the buttons */
+        }
+
+
+        /* Custom loading animation style */
+        #loading-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #0078d4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 1;
+            transition: opacity 1.0s;
+        }
+        /* Custom loading animation style */
+        #loading-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #0078d4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 1;
+            transition: opacity 1.0s;
+        }
+    </style>
+</head>
+<body>
+   
+    <header>
+        
+        <div class="logo-container">
+            <img src="CreativeLogo.jpg" alt="Your Logo">
+        </div>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <div class="profile-card" id="profile-card" style="display: none;">
+        <h2>Welcome to POCIfo</h2>
+        <h2>User Name: <span id="user-name">User</span></h2>
+    </div>
+
+    <div class="welcome">
+        <h2>Welcome to POCIfo</h2>
+        <button onclick="showQuestions()">Start Questionnaire</button>
+    </div>
+
+    <div class="questions" id="questionnaire">
+        <h2>Basic Info</h2>
+        <form id="question-form">
+            <label for="age">Age:</label>
+            <input type="number" id="age" placeholder="Enter your age">
+
+            <label for="employment">Employed or Unemployed:</label>
+            <select id="employment">
+                <option value="employed">Employed</option>
+                <option value="unemployed">Unemployed</option>
+            </select>
+
+            <label for="profession">Profession:</label>
+            <input type="text" id="profession" placeholder="Enter your profession">
+
+            <label for="find-us">How did you find us?</label>
+            <select id="find-us">
+                <option value="Google">Google</option>
+                <option value="Friend">Friend</option>
+            </select>
+
+            <label for="financial-stable">Do you want to be financially stable? (yes/no)</label>
+            <select id="financial-stable">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <button type="button" onclick="showBudgetSetting()">Next</button>
+        </form>
+    </div>
+
+    <div class="budget" id="budget" style="display: none;">
+        <h2>Budget Goal Setting</h2>
+        <p>Set your financial goal for the month:</p>
+        <input type="number" id="monthly-budget" placeholder="Enter your monthly budget">
+        <button onclick="calculateBudget()">Set Budget</button>
+        <div class="budget-placard" id="budget-result" style="display: none;">
+        </div>
+        <div class="next-button" id="next-button" style="display: none;">
+            <button onclick="goToNextPage()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        function showQuestions() {
+            document.querySelector('.welcome').style.display = 'none';
+            document.querySelector('.questions').style.display = 'block';
+        }
+
+        function showBudgetSetting() {
+            const answers = document.querySelectorAll('.questions select, .questions input');
+            let allAnswered = true;
+
+            answers.forEach(answer => {
+                if (!answer.value) {
+                    allAnswered = false;
+                }
+            });
+
+            if (!allAnswered) {
+                alert('First answer the questions.');
+            } else {
+                document.querySelector('.questions').style.display = 'none';
+                document.querySelector('.budget').style.display = 'block';
+                document.querySelector('.budget button').style.display = 'block';
+            }
+        }
+
+        function calculateBudget() {
+            const monthlyBudget = parseFloat(document.getElementById('monthly-budget').value);
+            const dailyBudget = monthlyBudget / 30;
+
+            const budgetResult = document.getElementById('budget-result');
+            if (!monthlyBudget) {
+                alert('Set the Monthly Budget.');
+            } else {
+                budgetResult.innerHTML = `Your Monthly Budget: ₹${monthlyBudget.toFixed(2)}<br>Your Daily Budget: ₹${dailyBudget.toFixed(2)}`;
+                budgetResult.style.display = 'block';
+                document.querySelector('.budget button').style.display = 'none';
+                document.querySelector('.budget button:last-child').style.display = 'block';
+                document.querySelector('.next-button').style.display = 'block';
+            }
+        }
+
+        function goToNextPage() {
+            // Replace 'your-next-page.html' with the URL of the page you want to navigate to.
+            window.location.href = 'home.html';
+        }
+    </script>
+
+    <footer>
+        <p>Design by Sounak&Ankan 2023</p>
+    </footer>
+</body>
+</html>

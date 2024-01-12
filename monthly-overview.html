@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Overview - Your Budget App</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CSS styles go here */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex; /* Updated to flex for better responsiveness */
+            justify-content: center; /* Center-align the navigation links */
+            align-items: center; /* Align items vertically in the center */
+        
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #00ff39;
+            font-weight: bold;
+        }
+
+        .content-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow content to wrap to the next line on smaller screens */
+        }
+
+        .calendar-container {
+            flex: 1;
+            background-color: rgb(229 234 247 / 70%);
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-width: 300px; /* Set a minimum width for better responsiveness */
+        }
+
+        .calendar {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .calendar-header {
+            background-color: #0078d4;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calendar-header h2 {
+            margin: 0;
+        }
+
+        .calendar-header select {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 5px;
+            text-align: center;
+        }
+
+        .calendar-day {
+            border: 1px solid #ccc;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .calendar-day:hover {
+            background-color: #f5f5f5;
+        }
+
+        .calendar-day.current-day {
+            background-color: #0078d4;
+            color: #fff;
+        }
+
+        .calendar-day[data-current="true"] {
+            background-color: #0078d4;
+            color: #fff;
+        }
+
+        .calendar-day:hover, .calendar-day:not(.current-day):hover {
+            background-color: #f5f5f5;
+            color: #000;
+        }
+
+        .content-section {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.7);
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 300px; /* Set a minimum width for better responsiveness */
+        }
+        @media screen and (max-width: 768px) {
+            .calendar-container, .content-section {
+                flex: 2; /* Adjust flex values for smaller screens */
+            }
+
+            .content-container {
+                flex-direction: column; /* Stack items vertically on smaller screens */
+            }
+
+            .logo-container {
+                margin-bottom: 20px; /* Add some spacing between logo and header text on smaller screens */
+            }
+
+            .calendar-container {
+                order: 2; /* Reverse the order of the calendar on smaller screens */
+            }
+        }
+
+        .budget-section {
+            text-align: center;
+            margin: 20px;
+        }
+         .profile-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0078d4, rgb(229, 227, 233));
+            z-index: -1;
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .profile-container:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+
+        footer {
+            text-align: center;
+            background-color: #5f5de7;
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0; 
+            
+           }
+      
+
+
+        .date-picker {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="CreativeLogo.jpg" alt="Your Logo">
+        </div>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="categories.html">Budget Categories</a></li>
+                <li><a href="monthly-overview.html">Monthly Overview</a></li>
+                <li><a href="expense-history.html">Expense Tracking History</a></li>
+                <li><a href="Profil.html">Profile</a></li>
+                <li><a href="About-us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content-container">
+        <div class="calendar-container">
+            <div class="calendar">
+                <div class="calendar-header">
+            +
+                    <div>
+                        <h2 id="current-date"></h2>
+                    </div>
+                    <div>
+                        <select id="month-select"></select>
+                        <select id="year-select"></select>
+                    </div>
+                </div>
+                <div class="calendar-grid">
+                    <!-- Calendar days will be generated here using JavaScript -->
+                </div>
+            </div>
+            <div class="date-picker">
+                <label for="datepicker">Select a Date:</label>
+                <input type="date" id="datepicker" max="" onchange="selectDate()">
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="budget-section">
+                <h3>Total Monthly Spending</h3>
+                <p id="total-monthly-spending">₹0.00</p>
+                <h3>Daily Spending</h3>
+                <p id="daily-spending-info">Choose a day on the calendar to view daily spending.</p>
+            </div>
+          
+        </div>
+    
+
+    <script>
+        // Sample data for daily spending (replace with your data)
+        const dailySpendingData = {
+            "2023-10-01": 25.00,
+            "2023-10-02": 18.50,
+            // Add more data as needed...
+        };
+
+        let currentYear = 2023; // Set the year to 2023
+        let currentMonth = 10;  // Set the month to November (0-indexed, so November is 10)
+        let currentDateKey = getCurrentDateKey();
+
+        // Function to display the calendar for the current month
+        function displayCalendar(year, month) {
+            const currentDate = new Date(year, month, 1);
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const calendarGrid = document.querySelector('.calendar-grid');
+
+            document.getElementById('current-date').textContent = currentDate.toLocaleString('default', { month: 'long' });
+
+            calendarGrid.innerHTML = '';
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = i;
+
+                if (dateKey === currentDateKey) {
+                    dayElement.classList.add('current-day');
+                }
+
+                dayElement.dataset.date = dateKey;
+
+                // Add an event listener to display daily spending when a day is clicked
+                dayElement.addEventListener('click', displayDailySpending);
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // Function to get the current date key in the format "YYYY-MM-DD"
+        function getCurrentDateKey() {
+            const today = new Date();
+            return `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+        }
+
+        // Function to display daily spending for the selected day
+        function displayDailySpending(event) {
+            const selectedDateKey = event.currentTarget.dataset.date;
+            const selectedDate = new Date(selectedDateKey);
+            const currentDate = new Date();
+            const dateDifference = Math.floor((currentDate - selectedDate) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
+
+            if (dateDifference <= 30 && dateDifference >= 0) {
+                const dailySpending = dailySpendingData[selectedDateKey];
+                document.getElementById('daily-spending-info').textContent = `Spending on ${selectedDateKey}: ₹${(dailySpending || 0).toFixed(2)}`;
+            } else {
+                document.getElementById('daily-spending-info').textContent = `Spending on ${selectedDate.toLocaleDateString()}: No data available`;
+            }
+        }
+
+        // Function to calculate and display the total monthly spending
+        function calculateTotalMonthlySpending(year, month) {
+            const currentMonthKey = `${year}-${(month + 1).toString().padStart(2, '0')}`;
+            let totalMonthlySpending = 0;
+
+            for (const dateKey in dailySpendingData) {
+                if (dateKey.startsWith(currentMonthKey)) {
+                    totalMonthlySpending += dailySpendingData[dateKey];
+                }
+            }
+
+            document.getElementById('total-monthly-spending').textContent = `₹${totalMonthlySpending.toFixed(2)}`;
+        }
+
+        // Function to populate the month and year select options
+        function populateMonthAndYearSelects() {
+            const monthSelect = document.getElementById('month-select');
+            const yearSelect = document.getElementById('year-select');
+
+            // Months array
+            const months = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+
+            // Populate the month select
+            months.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.text = month;
+                monthSelect.add(option);
+            });
+
+            // Set the current month as selected
+            monthSelect.value = currentMonth;
+
+            // Populate the year select with a range of years (adjust as needed)
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear - 1; year <= currentYear + 1; year++) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.text = year;
+                yearSelect.add(option);
+            }
+
+            // Set the current year as selected
+            yearSelect.value = currentYear;
+
+            // Add event listeners to update the calendar when month or year changes
+            monthSelect.addEventListener('change', () => {
+                currentMonth = parseInt(monthSelect.value);
+                displayCalendar(currentYear, currentMonth);
+                calculateTotalMonthlySpending(currentYear, currentMonth);
+            });
+
+            yearSelect.addEventListener('change', () => {
+                currentYear = parseInt(yearSelect.value);
+                displayCalendar(currentYear, currentMonth);
+                calculateTotalMonthlySpending(currentYear, currentMonth);
+            });
+        }
+
+        // Function to update the calendar when a specific date is selected from the date picker
+        function selectDate() {
+            const datePicker = document.getElementById('datepicker');
+            const selectedDate = new Date(datePicker.value);
+            const selectedYear = selectedDate.getFullYear();
+            const selectedMonth = selectedDate.getMonth();
+            
+            if (selectedDate > new Date()) {
+                alert('Cannot select a date beyond the current date.');
+                datePicker.value = currentDateKey;
+                return;
+            }
+
+            currentYear = selectedYear;
+            currentMonth = selectedMonth;
+            currentDateKey = datePicker.value;
+
+            document.getElementById('month-select').value = currentMonth;
+            document.getElementById('year-select').value = currentYear;
+
+            displayCalendar(currentYear, currentMonth);
+            calculateTotalMonthlySpending(currentYear, currentMonth);
+        }
+
+        // Attach event listeners for calendar generation and total monthly spending calculation
+        document.addEventListener('DOMContentLoaded', () => {
+            displayCalendar(currentYear, currentMonth);
+            calculateTotalMonthlySpending(currentYear, currentMonth);
+            populateMonthAndYearSelects();
+        });
+       
+           
+       
+       
+    </script>
+
+    <footer>
+        <p>Design by Sounak & Ankan 2023</p>
+    </footer>
+</body>
+</html>
+

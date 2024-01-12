@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <!-- Load Chart.js from the CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #00ff39;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .user-profile {
+            background-color: rgb(229 234 247 / 70%);
+            padding: 20px;
+            width: 50vw; /* 50% of the viewport width */
+            border-radius: 10px;
+            text-align: center;
+            margin: 0 auto;
+            overflow: hidden;
+            transform: scale(0);
+            transition: transform 0.2s;
+            display: flex; /* Display flex for better alignment */
+            justify-content: space-between; /* Space between user details and graph */
+        }
+
+        .user-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+
+        .user-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .analysis-container {
+            background: rgb(213 218 233 / 70%);
+            padding: 20px;
+            flex: 1; /* Allow child divs to take up equal space */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .analysis-section {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .analysis-section canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .expense-form {
+            display: none; /* Hide the form initially */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .expense-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .expense-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .expense-form button {
+            background-color: #0078d4;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media only screen and (max-width: 600px) {
+            .container {
+                flex-direction: column; /* Change to a single column layout on smaller screens */
+            }
+
+            .user-profile {
+                width: 90%; /* Adjust width for smaller screens */
+                flex-direction: column; /* Display in a column on smaller screens */
+            }
+
+            .user-pic {
+                margin-right: 0; /* Remove margin for smaller screens */
+                margin-bottom: 10px; /* Add margin to separate user pic and username */
+            }
+        }
+
+        .budget-card {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        /* Add this to your existing styles or update accordingly */
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+                .user-profile {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+
+        .username {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media only screen and (max-width: 600px) {
+            .user-details {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .user-pic {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+
+        .user-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-pic {
+            margin-bottom: 10px;
+        }
+
+        /* Add this to your existing styles or update accordingly */
+         .budget-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .profile-card {
+            /* Add styles to allow for dynamic sizing based on content */
+            width: auto;
+            max-width: 50vw; /* Limit the maximum width for better aesthetics */
+            transition: max-width 0.5s; /* Add a transition for smooth resizing */
+        }
+
+        /* Additional styles for responsive adjustments */
+        @media only screen and (max-width: 600px) {
+            .profile-card {
+                max-width: 90%; /* Adjust max-width for smaller screens */
+            }
+        }
+        footer {
+            text-align: center;
+            background-color: #5f5de7;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .popup-container {
+            text-align: center;
+        }
+        
+        /* Animation for analysis-container */
+        .analysis-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0078d4, rgb(229, 227, 233));
+            z-index: -1;
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .analysis-container:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+         /* Custom loading animation style */
+         #loading-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #0078d4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 1;
+            transition: opacity 1.0s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading animation overlay using your web page logo -->
+    <div id="loading-container">
+        <div class="logo-container">
+            <img src="CreativeLogo.jpg" alt="Your Logo">
+        </div>
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <img src="CreativeLogo.jpg" alt="Your Logo">
+        </div>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="categories.html">Budget Categories</a></li>
+                <li><a href="monthly-overview.html">Monthly Overview</a></li>
+                <li><a href="expense-history.html">Expense Tracking History</a></li>
+                <li><a href="Profil.html">Profile</a></li>
+                <li><a href="About-us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- User Profile Div -->
+       
+        <div class="profile-card user-profile">
+    <div class="user-pic">
+        <img src="CreativeLogo.jpg" alt="User Profile Pic">
+        <div class="user-details">
+            <div class="username" id="userName" style="transform: scale(0);">User Name</div>
+            <!-- Add any other user details if needed -->
+        </div>
+    </div>
+    <!-- Daily Expense Tracker Section -->
+    <div class="analysis-container" id="daily-analysis">
+        <h2>Daily Expense Tracker</h2>
+        <button type="button" onclick="showExpenseForm()">Generate Daily Analysis</button>
+        <!-- Updated location of the pie chart within the profile card -->
+        <div class="analysis-section">
+            <canvas id="expenseChart"></canvas>
+        </div>
+    </div>
+</div>
+        
+        <!-- End of User Profile and Daily Expense Tracker Section -->
+
+        <!-- Popup Container for Budget Cards -->
+        <div class="popup-container">
+            <div class="budget-card" id="monthlyBudgetCard">
+                <h3>Monthly Budget</h3>
+                <p class="budget-value" id="monthlyBudget">₹1,000</p>
+            </div>
+
+            <div class="budget-card" id="dailyBudgetCard">
+                <h3>Daily Budget</h3>
+                <p class="budget-value" id="dailyBudget">₹30</p>
+            </div>
+
+            <div class="budget-card" id="todaySpentCard">
+                <h3>Today Spent</h3>
+                <p class="budget-value" id="todaySpent">₹10</p>
+            </div>
+
+            <div class="budget-card" id="monthlySpentCard">
+                <h3>Monthly Spent</h3>
+                <p class="budget-value" id="monthlySpent">₹250</p>
+            </div>
+        </div>
+
+        <!-- Expense Form Popup -->
+        <div class="expense-form" id="expenseForm">
+            <label for="daily-estimate">Daily Estimated Cost (in INR):</label>
+            <input type="number" id="daily-estimate" min="0">
+            <label for="daily-spending">Daily Spending (in INR):</label>
+            <input type="number" id="daily-spending" min="0">
+            <button type="button" onclick="updatePieChart()">Generate Daily Analysis</button>
+        </div>
+    </main>
+
+    <!-- Include the footer -->
+    <footer>
+        <p>Design by Sounak & Ankan 2023</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+    <script>
+        // Hide the loading overlay and show the content when the page is ready
+        window.addEventListener('load', function () {
+            const loadingContainer = document.getElementById('loading-container');
+            const mainContent = document.querySelector('main');
+            loadingContainer.style.opacity = 0;
+            loadingContainer.style.pointerEvents = 'none';
+            mainContent.style.display = 'block';
+
+            // Animate the user profile and username
+            gsap.to('.user-profile', {
+                scale: 1,
+                duration: 0.5,
+                ease: "back.out(1.7)",
+                onComplete: function () {
+                    // Animate the user name after the user profile card
+                    gsap.to('#userName', { scale: 1, duration: 0.5, ease: "back.out(1.7)", onComplete: function () {
+                        // Animate the budget cards after the user name
+                        gsap.to('.budget-card', { opacity: 1, transform: 'translateY(0)', duration: 0.5, ease: 'back.out(1.7)', stagger: 0.2 });
+                    } });
+                }
+            });
+
+            // Animations for budget values (as in your previous code)
+            gsap.to('#monthlyBudget', {
+                innerHTML: "₹1,000",
+                duration: 2,
+                ease: "power1.inOut",
+            });
+
+            gsap.to('#dailyBudget', {
+                innerHTML: "₹30",
+                duration: 2,
+                ease: "power1.inOut",
+                delay: 2
+            });
+
+            gsap.to('#todaySpent', {
+                innerHTML: "₹10",
+                duration: 2,
+                ease: "power1.inOut",
+                delay: 4
+            });
+
+            gsap.to('#monthlySpent', {
+                innerHTML: "₹250",
+                duration: 2,
+                ease: "power1.inOut",
+                delay: 6
+            });
+        });
+
+        let dailyEstimate = 0;
+        let dailySpending = 0;
+        let expenseChart; // Declare globally
+
+        function showExpenseForm() {
+            document.getElementById('expenseForm').style.display = 'block';
+        }
+
+        // Function to update the pie chart based on user input
+        function updatePieChart() {
+            dailyEstimate = parseFloat(document.getElementById('daily-estimate').value) || 0;
+            dailySpending = parseFloat(document.getElementById('daily-spending').value) || 0;
+
+            const remainingBudget = dailyEstimate - dailySpending;
+            const data = [dailySpending, remainingBudget];
+
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+
+            // Check if the chart exists and destroy it before creating a new one
+            if (expenseChart) {
+                expenseChart.destroy();
+            }
+             // Display warning if spending exceeds estimate
+        if (dailySpending > dailyEstimate) {
+            const overspentAmount = dailySpending - dailyEstimate;
+
+            // Create a red box notification
+            const notificationDiv = document.createElement('div');
+            notificationDiv.style.backgroundColor = 'red';
+            notificationDiv.style.color = 'white';
+            notificationDiv.style.padding = '10px';
+            notificationDiv.style.borderRadius = '5px';
+            notificationDiv.textContent = `Warning: You have overspent by ₹${overspentAmount.toFixed(2)}`;
+            notificationDiv.style.position = 'fixed';
+            notificationDiv.style.top = '50%';
+            notificationDiv.style.left = '50%';
+            notificationDiv.style.transform = 'translate(-50%, -50%)';
+            notificationDiv.style.zIndex = '999';
+
+            // Insert the notification before the expense form
+            const expenseForm = document.getElementById('expenseForm');
+            document.body.appendChild(notificationDiv);
+
+            // Animate the red box notification using GSAP
+            gsap.from(notificationDiv, { opacity: 0, y: -20, duration: 0.5, ease: 'power2.out' });
+
+            // Add a bounce effect
+            gsap.to(notificationDiv, { y: -10, yoyo: true, repeat: -1, duration: 0.5, ease: 'power1.inOut' });
+
+            // Remove the notification after a few seconds (adjust the time as needed)
+            setTimeout(function () {
+                gsap.to(notificationDiv, { opacity: 0, y: -20, duration: 0.5, ease: 'power2.out', onComplete: function () {
+                    notificationDiv.remove();
+                } });
+            }, 5000);
+        }
+
+            // Initialize the chart
+            expenseChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Daily Spending (INR)', 'Remaining Budget (INR)'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1,
+                    }],
+                },
+            });
+
+            // Hide the expense form after generating the chart
+            document.getElementById('expenseForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

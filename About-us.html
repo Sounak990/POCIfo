@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #00ff39;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .section-div {
+            background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .founders {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .founder-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+            margin: 10px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .founder-card:hover {
+            transform: scale(1.05);
+        }
+
+        .founder-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .founder-card h3 {
+            color: #0078d4;
+        }
+
+        .founder-card p {
+            color: #333;
+        }
+        footer {
+            text-align: center;
+            background-color: #5f5de7;
+            color: #fff;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="CreativeLogo.jpg" alt="Your Logo">
+        </div>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="categories.html">Budget Categories</a></li>
+                <li><a href="monthly-overview.html">Monthly Overview</a></li>
+                <li><a href="expense-history.html">Expense Tracking History</a></li>
+                <li><a href="Profil.html">Profile</a></li>
+                <li><a href="about-us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- About the Web Application Section -->
+        <div class="section-div">
+            <h2>About Our Web Application</h2>
+            <p>Our web application, POCIfo, is designed to help you manage your budget and expenses effectively. With POCIfo, you can categorize your expenses, set budget goals, track your spending, and get a clear overview of your financial activities.</p>
+        </div>
+
+        <!-- About the Founders Section -->
+        <div class="section-div">
+            <h2>About the Founders</h2>
+            <div class="founders">
+                <div class="founder-card">
+                    <img src="front1.jpg" alt="Founder 1">
+                    <h3>Sounak Santra</h3>
+                    <p>Co-Founder</p>
+                    <h5>Front-End</h5>
+                    <a href="https://www.linkedin.com/in/sounak-santra-0919a0248/">LinkedIn</a> | <a href="https://github.com/Sounak990">Github</a>
+                </div>
+
+                <div class="founder-card">
+                    <img src="AnkanSaha.jpg" alt="Founder 2">
+                    <h3>Ankan Saha</h3>
+                    <p>Co-Founder</p>
+                    <h5>Back-End</h5>
+                    <a href="https://www.linkedin.com/in/the-ankan-saha/">LinkedIn</a> | <a href="#">Github</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include the footer -->
+    <footer>
+        <p>Design by Sounak&Ankan 2023</p>
+    </footer>
+</body>
+</html

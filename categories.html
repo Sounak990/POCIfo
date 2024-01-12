@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Your meta tags and title go here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Budget Planner</title>
+    <style>
+        /* CSS styles go here */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #00ff39;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .section-div {
+            background-color: rgb(229 234 247 / 70%);
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .profile-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #5f5de7;
+            color: #fff;
+            padding: 10px;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        /* Style for the Show/Hide button */
+        #show-hide-button {
+            background-color: #0078d4;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Style for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0078d4;
+            color: #fff;
+        }
+
+        /* Style for the form */
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        form label,
+        form select,
+        form input,
+        form button {
+            width: calc(50% - 5px);
+            box-sizing: border-box;
+        }
+
+        form button {
+            width: 100%;
+            background-color: #0078d4; /* Updated color to blue */
+            color: rgb(196, 196, 231);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Added transition for a smooth effect */
+        }
+        form button:hover {
+            background-color: #dbe2e7; /* Updated color for hover effect */
+            }
+        
+      
+
+        /* Style for the Complete button */
+        #complete-button {
+            background-color: #0078d4;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media only screen and (max-width: 768px) {
+            form label,
+            form select,
+            form input,
+            form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="CreativeLogo.jpg" alt="Your Logo">
+        </div>
+        <h1>POCIfo</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="categories.html">Budget Categories</a></li>
+                <li><a href="monthly-overview.html">Monthly Overview</a></li>
+                <li><a href="expense-history.html">Expense Tracking History</a></li>
+                <li><a href="Profil.html">Profile</a></li>
+                <li><a href="About-us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- Budget Categories Section -->
+        <div class="section-div">
+            <h2>Budget Categories</h2>
+            <p>Manage your expenses by categorizing them into different budget categories. You can create, edit, and delete items as needed.</p>
+
+            <!-- Table for budget items -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Price (rup)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="item-list">
+                    <!-- Items will be dynamically added here -->
+                </tbody>
+            </table>
+
+            <!-- Form for adding a new item -->
+            <h4>Add a New Item</h4>
+            <form id="add-item-form">
+                <label for="category-select">Category:</label>
+                <select id="category-select" required>
+                    <option value="Food">Food</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Other Expenses">Other Expenses</option>
+                </select>
+                <label for="item-name">Item Name:</label>
+                <input type="text" id="item-name" placeholder="Enter item name" required>
+                <label for="item-price">Item Price (rup):</label>
+                <input type="number" id="item-price" placeholder="Enter item price" step="0.01" required>
+                <button type="submit">Add</button>
+            </form>
+
+            <!-- Complete button to sum up prices -->
+            <button id="complete-button">Complete</button>
+        </div>
+    </main>
+
+    <!-- Include the footer -->
+    <footer>
+        <p>Design by Sounak&Ankan 2023</p>
+    </footer>
+
+    <!-- JavaScript for managing categories and items -->
+    <script>
+        // Your JavaScript for managing categories and items here
+    </script>
+
+    <!-- JavaScript for handling the complete button goes here -->
+    <script>
+        const categories = {};
+        const itemList = document.getElementById('item-list');
+        const categorySelect = document.getElementById('category-select');
+
+        function refreshCategories() {
+            categorySelect.innerHTML = '';
+        }
+
+        function refreshItems() {
+            itemList.innerHTML = '';
+
+            for (const category in categories) {
+                categories[category].forEach(item => {
+                    const row = document.createElement('tr');
+                    const cell1 = document.createElement('td');
+                    cell1.textContent = category;
+                    const cell2 = document.createElement('td');
+                    cell2.textContent = item.name;
+                    const cell3 = document.createElement('td');
+                    cell3.textContent = `${item.price.toFixed(2)} rup`;
+                    const cell4 = document.createElement('td');
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.onclick = () => editItem(category, item.name);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => deleteItem(category, item.name);
+                    cell4.appendChild(editButton);
+                    cell4.appendChild(deleteButton);
+                    row.appendChild(cell1);
+                    row.appendChild(cell2);
+                    row.appendChild(cell3);
+                    row.appendChild(cell4);
+                    itemList.appendChild(row);
+                });
+            }
+        }
+
+        document.getElementById('add-item-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const selectedCategory = categorySelect.value;
+            const newItemName = document.getElementById('item-name').value.trim();
+            const newItemPrice = parseFloat(document.getElementById('item-price').value);
+
+            if (selectedCategory && newItemName && !isNaN(newItemPrice)) {
+                if (!categories[selectedCategory]) {
+                    categories[selectedCategory] = [];
+                }
+                categories[selectedCategory].push({
+                    name: newItemName,
+                    price: newItemPrice
+                });
+                document.getElementById('item-name').value = '';
+                document.getElementById('item-price').value = '';
+                refreshItems();
+            }
+        });
+
+        function editItem(category, itemName) {
+            const editedItemName = prompt(`Edit item "${itemName}" in category "${category}":`, itemName);
+            if (editedItemName !== null) {
+                const itemIndex = categories[category].findIndex(item => item.name === itemName);
+                if (itemIndex !== -1) {
+                    categories[category][itemIndex].name = editedItemName;
+                    refreshItems();
+                }
+            }
+        }
+
+        function deleteItem(category, itemName) {
+            const confirmDelete = confirm(`Delete item "${itemName}" in category "${category}"?`);
+            if (confirmDelete) {
+                const itemIndex = categories[category].findIndex(item => item.name === itemName);
+                if (itemIndex !== -1) {
+                    categories[category].splice(itemIndex, 1);
+                    refreshItems();
+                }
+            }
+        }
+
+        // Complete button functionality
+        document.getElementById('complete-button').addEventListener('click', function () {
+            let totalBudget = 0;
+
+            for (const category in categories) {
+                categories[category].forEach(item => {
+                    totalBudget += item.price;
+                });
+            }
+
+            alert(`Total Budget: ${totalBudget.toFixed(2)} rup`);
+        });
+    </script>
+</body>
+
+</html>
